@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="iamge/png" href="{% static 'img/favicon.png' %}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'checkout.css' %}">
+  <title>Checkout</title>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-xl navbar-dark bg-dark pmd-navbar pmd-z-depth fixed-top">
+    <a class="navbar-brand" href="restaurants">Zomato</a>
+    <div class="dropdown pmd-dropdown pmd-user-info ml-auto mr-4">
+      <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center" data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+        <img class="mr-2" src="https://www.w3schools.com/howto/img_avatar.png" style="border-radius: 50%;" width="40" height="40" alt="avatar">
+        <div class="media-body">
+          {{ user.get_username }}
+        </div>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right mr-2" role="menu">
+        <a class="dropdown-item" href="signout">Logout</a>
+      </ul>
+    </div>
+  </nav>
+<br>
+<br>
+  <div class="container color-c">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Your orders</h1>
+      <ul class="list-group" id="item_list">
+        <br>
+      </ul><br>
+      <hr>
+    </div>
+  </div>
+  <!-- form -->
+  <div class="row">
+    <div class="col-md-12">
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group col-md-2">
+          <input type="hidden" class="form-control" id="items" name="items">
+        </div>
+    </div>
+    <div class="form-row ml-2">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Username</label>
+        <input readonly="" id="name" name="name" type="text" class="form-control" id="inputEmail4" placeholder="{{ request.user.get_username }}">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">Email</label>
+        <input readonly="" id="email" name="email" type="email" class="form-control" id="inputPassword4" placeholder="{{ request.user.email }}">
+      </div>
+    </div>
+      <div class="form-group col-md-2">
+        <label for="inputZip">Bill</label>
+        <input readonly="" type="text" class="form-control" id="total" name="total">
+      </div>
+    <div class="form-group col-md-12">
+      <button type="submit" class="btn btn-primary order_placed">Place Order</button>
+    </div>
+    </form>
+  </div>
+  </div>
+  </div>
+
+  <script type="text/javascript">
+  if(localStorage.getItem('cart') == null){
+    var cart = {}
+  }
+  else{
+    var cart = JSON.parse(localStorage.getItem('cart'))
+    
+  }
+
+  total = 0;
+  var c = 0;
+  for (item in cart){
+    let name = item;
+    let quantity = cart[item];
+    let price = {{ dish_p }}[c] * quantity;
+    c += 1;
+    total = total + price;
+    var itemString = `<li class="list-group-item d-flex justify-content-between align-items-center"><span class="badge badge-primary badge-pill">${quantity}</span>${name}<span class="badge badge-warning badge-pill">${price}</span></li>`;
+   
+    $('#item_list').append(itemString);
+  
+  }
+  totalPrice = `<li class="list-group-item d-flex justify-content-between align-items-center"><b>Your Total Amount</b><span class="badge badge-success">${total}</span></li>`;
+  
+  $('#item_list').append(totalPrice);
+  $('#total').val(total)
+  $('#items').val(JSON.stringify(cart));
+
+  $(document).on('click','.order_placed',function(){
+      localStorage.clear()
+  });
+</script>
+
+  
+</body>
+
+</html>

@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="iamge/png" href="{% static 'img/favicon.png' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'resturantPage.css' %}">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>{{ rest_dish.dish_restaurant_name }}</title>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="topnav row">
+        <nav class="navbar navbar-expand-xl navbar-dark bg-dark pmd-navbar pmd-z-depth fixed-top">
+            <a class="navbar-brand" href="restaurants">Zomato</a>
+            <button id="popcart" type="button" class="btn btn-secondary mt-2 margin-l cart-click fixed-top" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-content="abcd"> Cart (<span id="cart">0</span>) </button>
+            <div class="dropdown pmd-dropdown pmd-user-info ml-auto mr-4">
+                <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center" data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+                    <img class="mr-2" src="https://www.w3schools.com/howto/img_avatar.png" style="border-radius: 50%;"
+                        width="40" height="40" alt="avatar">
+                    <div class="media-body">
+                        {{ user.get_username }}
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right mr-2" role="menu">
+                    <a class="dropdown-item" href="signout">Logout</a>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <br>
+
+    <br>
+<div class="container">
+    <div class="row">
+        {% for i in rest_dish %}
+        <div class="col-md-3">
+            <div class="card card-box" style="border-radius: 15px">
+                <div class="card-body">
+                    <h3 id="{{i}}" class="card-title_">{{ i }}</h3>
+                    <h5 style="display:inline;">Price <span style="color:green;"><span
+                                class="a-price-symbol">₹</span><span>{{i.dish_price}}</span></span></h5>
+                    <div class="row-button" style=" margin: auto;">
+                        <div class="col-center">
+                            <button id="{{ i }}" class="btn atc btn-warning mt-2 cart addcart">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+<script>
+if(localStorage.getItem('cart') == null){
+    var cart = {};
+}else{
+    cart = JSON.parse(localStorage.getItem('cart'));
+    var totalItem = 0;
+    var itemInCart = Object.values(cart)
+        for (let item of itemInCart) {
+            totalItem += item;
+        }
+    document.getElementById('cart').innerHTML = totalItem;
+}
+
+$('.cart').click(function(){
+    var dish = this.id.toString();
+    if(cart[dish] != undefined){
+        cart[dish] += 1;
+    }else{
+        cart[dish] = 1;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    var totalItem = 0;
+    var itemInCart = Object.values(cart)
+        for (let item of itemInCart) {
+            totalItem += item;
+        }
+    document.getElementById('cart').innerHTML = totalItem;
+});
+$('#popcart').popover();
+
+
+updatePopover(cart);
+function updatePopover(cart)
+{
+    var popStr = "";
+    popStr = popStr + "<h5> Cart </h5><div class='mx-2 my-2'>";
+    var i = 1;
+    for (var item in cart){
+        popStr = popStr + "<b>" + i + "</b>. ";
+        popStr = popStr + item + " × " + cart[item] + '<br>';
+        i = i+1;
+    }
+    popStr = popStr + "</div> <a href='checkout{{ rest_name }}'><button class='btn btn-primary' id ='checkout'>Checkout</button></a> <button class='btn btn-primary' onclick='clearCart()' id ='clearCart'>Clear Cart</button>"
+    popStr = popStr + "</div>" 
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+}
+
+function updateCart(cart) {
+    var sum = 0;
+    for (var item in cart) {
+        sum = sum + cart[item];
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = sum;
+    updatePopover(cart);
+}
+
+$(".addcart").click(function(){
+    updateCart(cart);
+});
+
+function clearCart() {
+    localStorage.clear();
+    cart = {};
+    updateCart(cart);
+}
+
+</script>
+
+</body>
+
+</html>

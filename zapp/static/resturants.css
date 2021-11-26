@@ -1,0 +1,18 @@
+body{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/resturants.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.dropdown-list{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -2em; /*set to a negative number 1/2 of your height*/
+    margin-left: -12em; /*set to a negative number 1/2 of your width*/
+}
+
+.but-size{
+    padding: 0.5rem 9rem;
+}

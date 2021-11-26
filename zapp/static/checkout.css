@@ -1,0 +1,12 @@
+body{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/checkout.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    margin: 30px;
+}
+
+.color-c{
+    background-color: #c4c2cc;
+    border-radius: 15px;
+}

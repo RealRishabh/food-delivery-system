@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="iamge/png" href="{% static 'img/favicon.png' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'resturants.css' %}">
+    <title>Zomato Resturants</title>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark pmd-navbar pmd-z-depth fixed-top">
+        <a class="navbar-brand" href="restaurants">Zomato</a>
+        <div class="dropdown pmd-dropdown pmd-user-info ml-auto mr-4">
+            <a href="javascript:void(0);" class="btn-user dropdown-toggle media align-items-center" data-toggle="dropdown" data-sidebar="true" aria-expanded="false">
+                <img class="mr-2" src="https://www.w3schools.com/howto/img_avatar.png" style="border-radius: 50%;" width="40" height="40" alt="avatar">
+                <div class="media-body">
+                    {{ user.get_username }}
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right mr-2" role="menu">
+                <a class="dropdown-item" href="signout">Logout</a>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <!-- Dropdown list -->
+    <div class="btn-group dropdown-list" style="position: absolute; position: relative;">
+        <button class="btn btn-secondary btn-lg dropdown-toggle but-size" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Restaurants
+        </button>
+            <div class="dropdown-menu">
+            {% for restaurant in restaurant_obj %}
+                <a class="dropdown-item" href="restaurants_page{{ restaurant.restaurant_name }}">{{ restaurant.restaurant_name }}</a>
+            {% endfor %}
+            </div>
+      </div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

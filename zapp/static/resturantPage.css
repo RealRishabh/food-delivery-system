@@ -1,0 +1,39 @@
+body{
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('img/resturantPage.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    /* background-color: cadetblue; */
+    margin: 30px;
+}
+
+.margin-l{
+    left: 150px;
+}
+
+.a-price-symbol{
+    top: -0.5em;
+    font-size: 12px;
+    position: relative;
+}
+
+.card-title_ {
+    text-align: center;
+}
+
+.card-box{
+    height: auto;
+    width:auto;
+}
+
+/* .row{
+    position: relative;
+    top: 156px;
+    left: 15px;
+}
+
+.row-button {
+    position: relative;
+    top: 10px;
+    left: 15px;
+} */
